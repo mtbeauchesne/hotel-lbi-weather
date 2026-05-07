@@ -1,4 +1,4 @@
-name: Render email widget image
+name: Render email image
 
 on:
   schedule:
@@ -8,8 +8,8 @@ on:
     branches: [main]
     paths:
       - "scripts/render-email-image.mjs"
-      - "package.json"
       - ".github/workflows/render-email-image.yml"
+      - "package.json"
 
 permissions:
   contents: write
@@ -22,33 +22,38 @@ jobs:
   render:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Install runtime emoji font
+      - name: Install
+        run: npm install --no-audit --no-fund
+
+      - name: Download brand fonts (Prata + Montserrat)
         run: |
           mkdir -p fonts
-          if [ ! -f fonts/NotoColorEmoji.ttf ]; then
-            curl -fsSL -o fonts/NotoColorEmoji.ttf \
-              https://github.com/googlefonts/noto-emoji/raw/main/fonts/NotoColorEmoji.ttf
-          fi
-          ls -lh fonts/
+          # Prata (serif headings)
+          curl -fsSL "https://github.com/google/fonts/raw/main/ofl/prata/Prata-Regular.ttf" -o fonts/Prata-Regular.ttf
+          # Montserrat (sans-serif labels)
+          curl -fsSL "https://github.com/google/fonts/raw/main/ofl/montserrat/static/Montserrat-Regular.ttf" -o fonts/Montserrat-Regular.ttf
+          curl -fsSL "https://github.com/google/fonts/raw/main/ofl/montserrat/static/Montserrat-Medium.ttf" -o fonts/Montserrat-Medium.ttf
+          ls -la fonts/
 
-      - run: npm install --no-audit --no-fund
+      - name: Render
+        run: node scripts/render-email-image.mjs
 
-      - run: npm run render
-
-      - name: Commit rendered assets
+      - name: Commit outputs
         run: |
-          git config user.name  "github-actions[bot]"
+          git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add email/widget.svg email/widget.png
           if git diff --cached --quiet; then
-            echo "No changes to commit."
+            echo "No changes to commit"
           else
-            git commit -m "chore(email): refresh widget assets [skip ci]"
+            git commit -m "chore(email): refresh widget [skip ci]"
             git push
           fi
