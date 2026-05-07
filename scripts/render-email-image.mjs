@@ -1,22 +1,36 @@
 // scripts/render-email-image.mjs
-import { writeFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { Resvg } from "@resvg/resvg-js";
 
 const LAT = 39.6453, LON = -74.1879;
 const OUT_DIR = "email";
 
 const WMO = {
-  0:["Clear","☀"], 1:["Mainly Clear","☀"], 2:["Partly Cloudy","⛅"], 3:["Overcast","☁"],
-  45:["Fog","≈"], 48:["Rime Fog","≈"],
-  51:["Light Drizzle","☂"], 53:["Drizzle","☂"], 55:["Heavy Drizzle","☂"],
-  61:["Light Rain","☂"], 63:["Rain","☂"], 65:["Heavy Rain","☂"],
-  71:["Light Snow","❄"], 73:["Snow","❄"], 75:["Heavy Snow","❄"],
-  80:["Showers","☂"], 81:["Showers","☂"], 82:["Heavy Showers","⛈"],
-  95:["Thunderstorm","⛈"], 96:["Thunderstorm","⛈"], 99:["Severe Storm","⛈"]
+  0:["Clear","☀️"], 1:["Mainly Clear","🌤️"], 2:["Partly Cloudy","⛅"], 3:["Overcast","☁️"],
+  45:["Fog","🌫️"], 48:["Rime Fog","🌫️"],
+  51:["Light Drizzle","🌦️"], 53:["Drizzle","🌦️"], 55:["Heavy Drizzle","🌧️"],
+  61:["Light Rain","🌦️"], 63:["Rain","🌧️"], 65:["Heavy Rain","🌧️"],
+  71:["Light Snow","🌨️"], 73:["Snow","🌨️"], 75:["Heavy Snow","❄️"],
+  80:["Showers","🌦️"], 81:["Showers","🌧️"], 82:["Heavy Showers","⛈️"],
+  95:["Thunderstorm","⛈️"], 96:["Thunderstorm","⛈️"], 99:["Severe Storm","⛈️"]
 };
 
-const fmtTime = iso => new Date(iso).toLocaleTimeString("en-US", { hour:"numeric", minute:"2-digit", timeZone:"America/New_York" });
-const fmtDay  = iso => new Date(iso).toLocaleDateString("en-US", { weekday:"short", timeZone:"America/New_York" }).toUpperCase();
+// Open-Meteo (with timezone=America/New_York) returns naive local-time strings like "2026-05-07T05:50".
+// Parse the time directly from the string so we don't get tripped up by the runner's UTC default.
+const fmtTime = iso => {
+  const [, hhmm] = iso.split("T");
+  const [hStr, mStr] = hhmm.split(":");
+  let h = parseInt(hStr, 10);
+  const m = mStr.padStart(2, "0");
+  const ampm = h >= 12 ? "PM" : "AM";
+  h = h % 12 || 12;
+  return `${h}:${m} ${ampm}`;
+};
+const fmtDay = iso => {
+  // iso is "YYYY-MM-DD" — use UTC interpretation to avoid runner-tz drift
+  const d = new Date(iso + "T12:00:00Z");
+  return d.toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" }).toUpperCase();
+};
 const esc = s => String(s).replace(/[&<>]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;" }[c]));
 
 async function fetchWeather() {
@@ -49,9 +63,9 @@ function buildSvg(data) {
     const lo = Math.round(data.daily.temperature_2m_min[i]);
     return `
       <text x="${x}" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">${esc(label)}</text>
-      <text x="${x}" y="510" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="28" opacity="0.95">${esc(w[1])}</text>
-      <text x="${x}" y="552" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">${hi}°</text>
-      <text x="${x}" y="582" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">${lo}°</text>`;
+      <text x="${x}" y="514" text-anchor="middle" font-family="'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif" font-size="32">${esc(w[1])}</text>
+      <text x="${x}" y="556" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">${hi}°</text>
+      <text x="${x}" y="586" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">${lo}°</text>`;
   }).join("");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -88,15 +102,25 @@ async function main() {
   mkdirSync(OUT_DIR, { recursive: true });
   writeFileSync(`${OUT_DIR}/widget.svg`, svg, "utf8");
 
+  // Load extra fonts if available (workflow downloads Noto Color Emoji into fonts/)
+  const fontFiles = [];
+  for (const f of ["fonts/NotoColorEmoji.ttf"]) {
+    if (existsSync(f)) fontFiles.push(f);
+  }
+
   const resvg = new Resvg(svg, {
     background: "#156988",
     fitTo: { mode: "width", value: 1200 },
-    font: { loadSystemFonts: true, defaultFontFamily: "Helvetica" }
+    font: {
+      loadSystemFonts: true,
+      defaultFontFamily: "Helvetica",
+      fontFiles
+    }
   });
   const png = resvg.render().asPng();
   writeFileSync(`${OUT_DIR}/widget.png`, png);
 
-  console.log(`Rendered ${OUT_DIR}/widget.svg (${svg.length} bytes) + ${OUT_DIR}/widget.png (${png.length} bytes)`);
+  console.log(`Rendered ${OUT_DIR}/widget.svg (${svg.length} bytes) + ${OUT_DIR}/widget.png (${png.length} bytes); fonts: ${fontFiles.join(", ") || "system only"}`);
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
