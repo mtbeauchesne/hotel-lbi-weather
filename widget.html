@@ -1,5 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hotel LBI Weather Widget</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lbi-teal: #156988;
+    --lbi-teal-dark: #0f4d65;
+    --lbi-teal-light: #62A7C0;
+    --lbi-sand: #f5efe4;
+    --lbi-ink: #1c2a33;
+    --lbi-line: rgba(255,255,255,0.28);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Montserrat", "Helvetica Neue", system-ui, sans-serif;
+    color: #fff;
+    background: linear-gradient(180deg, var(--lbi-teal) 0%, var(--lbi-teal-dark) 100%);
+  }
+  .card {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 28px 32px 24px;
+  }
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: 0.85;
+  }
+  .place {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin-top: 2px;
+    line-height: 1.1;
+  }
+  .divider {
+    width: 44px;
+    height: 1px;
+    background: var(--lbi-line);
+    margin: 12px 0 14px;
+  }
+  .top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .temp {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 76px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .temp small {
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    margin-left: 6px;
+    opacity: 0.85;
+    vertical-align: top;
+    position: relative;
+    top: 14px;
+  }
+  .cond {
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    margin-top: 6px;
+    opacity: 0.92;
+  }
+  .icon { font-size: 64px; line-height: 1; }
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--lbi-line);
+    text-align: center;
+  }
+  .meta .k {
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 4px;
+  }
+  .meta .v {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .forecast-label {
+    font-size: 10px;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin: 22px 0 10px;
+    text-align: center;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    padding-top: 14px;
+    border-top: 1px solid var(--lbi-line);
+  }
+  .day {
+    text-align: center;
+    padding: 6px 2px;
+  }
+  .day .d {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .day .e { font-size: 22px; margin: 6px 0 4px; }
+  .day .h {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .day .l {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+  .cta-wrap { text-align: center; margin-top: 22px; }
+  a.cta {
+    display: inline-block;
+    padding: 12px 28px;
+    background: #fff;
+    color: var(--lbi-teal);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    border: 1px solid #fff;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  a.cta:hover {
+    background: transparent;
+    color: #fff;
+  }
+  @media (max-width: 480px) {
+    .card { padding: 22px 20px; }
+    .temp { font-size: 60px; }
+    .row { grid-template-columns: repeat(7, 1fr); gap: 2px; }
+    .day .h { font-size: 15px; }
+    .day .e { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="eyebrow">Hotel LBI</div>
+    <div class="place">Long Beach Island, NJ</div>
+    <div class="divider"></div>
+
+    <div class="top">
+      <div>
+        <div class="temp" id="temp">&mdash;<small>&deg;F</small></div>
+        <div class="cond" id="cond">Loading&hellip;</div>
+      </div>
+      <div class="icon" id="icon">&#9925;</div>
+    </div>
+
+    <div class="meta">
+      <div><div class="k">Sunrise</div><div class="v" id="m1">&mdash;</div></div>
+      <div><div class="k">Sunset</div><div class="v" id="m2">&mdash;</div></div>
+      <div><div class="k">Wind</div><div class="v" id="m3">&mdash;</div></div>
+    </div>
+
+    <div class="forecast-label">Seven Day Forecast</div>
+    <div class="row" id="row"></div>
+
+    <div class="cta-wrap">
+      <a class="cta" href="https://mtbeauchesne.github.io/hotel-lbi-weather/" target="_blank" rel="noopener">View Full Forecast</a>
+    </div>
+  </div>
+
+<script>
+  const LAT = 39.6453, LON = -74.1879;
+  const WMO = {
+    0:["Clear","☀️"],1:["Mainly Clear","🌤️"],2:["Partly Cloudy","⛅"],3:["Overcast","☁️"],
+    45:["Fog","🌫️"],48:["Fog","🌫️"],
+    51:["Drizzle","🌦️"],53:["Drizzle","🌦️"],55:["Drizzle","🌧️"],
+    61:["Rain","🌦️"],63:["Rain","🌧️"],65:["Heavy Rain","🌧️"],
+    71:["Snow","🌨️"],73:["Snow","🌨️"],75:["Snow","❄️"],
+    80:["Showers","🌦️"],81:["Showers","🌧️"],82:["Showers","⛈️"],
+    95:["Storm","⛈️"],96:["Storm","⛈️"],99:["Storm","⛈️"]
+  };
+  const fmtTime = iso => new Date(iso).toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
+  const fmtDay  = iso => new Date(iso).toLocaleDateString([], {weekday:"short"}).toUpperCase();
+
+  async function load() {
+    const url = "https://api.open-meteo.com/v1/forecast?latitude=" + LAT + "&longitude=" + LON
+      + "&current=temperature_2m,weather_code,wind_speed_10m"
+      + "&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset"
+      + "&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FNew_York";
+    const data = await (await fetch(url)).json();
+    const c = data.current;
+    const w = WMO[c.weather_code] || ["—","⛅"];
+
+    document.getElementById("temp").innerHTML = Math.round(c.temperature_2m) + "<small>°F</small>";
+    document.getElementById("cond").textContent = w[0];
+    document.getElementById("icon").textContent = w[1];
+    document.getElementById("m1").textContent = fmtTime(data.daily.sunrise[0]);
+    document.getElementById("m2").textContent = fmtTime(data.daily.sunset[0]);
+    document.getElementById("m3").textContent = Math.round(c.wind_speed_10m) + " mph";
+
+    const row = document.getElementById("row");
+    row.innerHTML = "";
+    for (let i = 0; i < 7; i++) {
+      const ww = WMO[data.daily.weather_code[i]] || ["—","⛅"];
+      const d = document.createElement("div");
+      d.className = "day";
+      d.innerHTML =
+          '<div class="d">' + (i === 0 ? "Today" : fmtDay(data.daily.time[i])) + '</div>'
+        + '<div class="e">' + ww[1] + '</div>'
+        + '<div class="h">' + Math.round(data.daily.temperature_2m_max[i]) + '°</div>'
+        + '<div class="l">' + Math.round(data.daily.temperature_2m_min[i]) + '°</div>';
+      row.appendChild(d);
+    }
+  }
+  load().catch(() => {
+    document.getElementById("cond").textContent = "Weather Unavailable";
+  });
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
