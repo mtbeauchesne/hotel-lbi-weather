@@ -1,0 +1,12 @@
+{
+  "name": "hotel-lbi-weather",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "render": "node scripts/render-email-image.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2"
+  }
+}
