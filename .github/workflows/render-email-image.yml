@@ -28,6 +28,15 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install runtime emoji font
+        run: |
+          mkdir -p fonts
+          if [ ! -f fonts/NotoColorEmoji.ttf ]; then
+            curl -fsSL -o fonts/NotoColorEmoji.ttf \
+              https://github.com/googlefonts/noto-emoji/raw/main/fonts/NotoColorEmoji.ttf
+          fi
+          ls -lh fonts/
+
       - run: npm install --no-audit --no-fund
 
       - run: npm run render
