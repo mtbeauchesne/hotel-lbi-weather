@@ -15,39 +15,39 @@
   <line x1="120" y1="380" x2="1080" y2="380" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1"/>
   <g font-family="Helvetica, Arial, sans-serif" fill="#ffffff">
     <text x="320" y="406" text-anchor="middle" font-size="13" letter-spacing="4" opacity="0.75">SUNRISE</text>
-    <text x="320" y="436" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="26">1:50 AM</text>
+    <text x="320" y="436" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="26">5:50 AM</text>
     <text x="600" y="406" text-anchor="middle" font-size="13" letter-spacing="4" opacity="0.75">SUNSET</text>
-    <text x="600" y="436" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="26">3:56 PM</text>
+    <text x="600" y="436" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="26">7:56 PM</text>
     <text x="880" y="406" text-anchor="middle" font-size="13" letter-spacing="4" opacity="0.75">WIND</text>
     <text x="880" y="436" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="26">11 mph</text>
   </g>
   
       <text x="120" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">TODAY</text>
-      <text x="120" y="510" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="28" opacity="0.95">☂</text>
-      <text x="120" y="552" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">58°</text>
-      <text x="120" y="582" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">52°</text>
-      <text x="280" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">THU</text>
-      <text x="280" y="510" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="28" opacity="0.95">☁</text>
-      <text x="280" y="552" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">55°</text>
-      <text x="280" y="582" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">51°</text>
-      <text x="440" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">FRI</text>
-      <text x="440" y="510" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="28" opacity="0.95">☂</text>
-      <text x="440" y="552" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">59°</text>
-      <text x="440" y="582" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">53°</text>
-      <text x="600" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">SAT</text>
-      <text x="600" y="510" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="28" opacity="0.95">≈</text>
-      <text x="600" y="552" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">64°</text>
-      <text x="600" y="582" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">53°</text>
-      <text x="760" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">SUN</text>
-      <text x="760" y="510" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="28" opacity="0.95">☂</text>
-      <text x="760" y="552" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">55°</text>
-      <text x="760" y="582" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">50°</text>
-      <text x="920" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">MON</text>
-      <text x="920" y="510" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="28" opacity="0.95">☁</text>
-      <text x="920" y="552" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">62°</text>
-      <text x="920" y="582" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">43°</text>
-      <text x="1080" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">TUE</text>
-      <text x="1080" y="510" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="28" opacity="0.95">☂</text>
-      <text x="1080" y="552" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">57°</text>
-      <text x="1080" y="582" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">50°</text>
+      <text x="120" y="514" text-anchor="middle" font-family="'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif" font-size="32">🌦️</text>
+      <text x="120" y="556" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">58°</text>
+      <text x="120" y="586" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">52°</text>
+      <text x="280" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">FRI</text>
+      <text x="280" y="514" text-anchor="middle" font-family="'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif" font-size="32">☁️</text>
+      <text x="280" y="556" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">55°</text>
+      <text x="280" y="586" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">51°</text>
+      <text x="440" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">SAT</text>
+      <text x="440" y="514" text-anchor="middle" font-family="'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif" font-size="32">🌧️</text>
+      <text x="440" y="556" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">59°</text>
+      <text x="440" y="586" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">53°</text>
+      <text x="600" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">SUN</text>
+      <text x="600" y="514" text-anchor="middle" font-family="'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif" font-size="32">🌫️</text>
+      <text x="600" y="556" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">64°</text>
+      <text x="600" y="586" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">53°</text>
+      <text x="760" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">MON</text>
+      <text x="760" y="514" text-anchor="middle" font-family="'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif" font-size="32">🌦️</text>
+      <text x="760" y="556" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">55°</text>
+      <text x="760" y="586" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">50°</text>
+      <text x="920" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">TUE</text>
+      <text x="920" y="514" text-anchor="middle" font-family="'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif" font-size="32">☁️</text>
+      <text x="920" y="556" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">62°</text>
+      <text x="920" y="586" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">43°</text>
+      <text x="1080" y="470" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="3" opacity="0.9">WED</text>
+      <text x="1080" y="514" text-anchor="middle" font-family="'Noto Color Emoji', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif" font-size="32">🌦️</text>
+      <text x="1080" y="556" text-anchor="middle" fill="#ffffff" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="500">57°</text>
+      <text x="1080" y="586" text-anchor="middle" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="16" opacity="0.7">50°</text>
 </svg>
