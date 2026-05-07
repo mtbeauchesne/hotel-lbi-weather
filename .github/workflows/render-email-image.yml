@@ -36,11 +36,10 @@ jobs:
       - name: Download brand fonts (Prata + Montserrat)
         run: |
           mkdir -p fonts
-          # Prata (serif headings)
+          # Prata - serif headings
           curl -fsSL "https://github.com/google/fonts/raw/main/ofl/prata/Prata-Regular.ttf" -o fonts/Prata-Regular.ttf
-          # Montserrat (sans-serif labels)
-          curl -fsSL "https://github.com/google/fonts/raw/main/ofl/montserrat/static/Montserrat-Regular.ttf" -o fonts/Montserrat-Regular.ttf
-          curl -fsSL "https://github.com/google/fonts/raw/main/ofl/montserrat/static/Montserrat-Medium.ttf" -o fonts/Montserrat-Medium.ttf
+          # Montserrat - variable weight font (URL-encoded brackets)
+          curl -fsSL "https://github.com/google/fonts/raw/main/ofl/montserrat/Montserrat%5Bwght%5D.ttf" -o fonts/Montserrat.ttf
           ls -la fonts/
 
       - name: Render
