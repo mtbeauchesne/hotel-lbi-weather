@@ -1,167 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hotel LBI · Beach Weather</title>
-  <style>
-      :root {
-            --sand: #f4ecdd;
-            --sand-deep: #e6d8b8;
-            --sea: #2b6a8a;
-            --sea-light: #6fb3c9;
-            --sun: #f5b642;
-            --ink: #1c2a33;
-            --card: rgba(255,255,255,0.78);
-            --shadow: 0 8px 30px rgba(28,42,51,0.12);
-            --radius: 18px;
-            --font: "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
-      }
-      * { box-sizing: border-box; }
-      body {
-            margin: 0;
-            font-family: var(--font);
-            color: var(--ink);
-            background: linear-gradient(180deg, #cfe7f1 0%, #f4ecdd 70%, #e6d8b8 100%);
-            min-height: 100vh;
-            padding: 32px 16px 64px;
-      }
-      header { text-align: center; margin-bottom: 28px; }
-      .brand { letter-spacing: 0.35em; font-size: 12px; color: var(--sea); text-transform: uppercase; }
-      h1 { font-weight: 300; font-size: clamp(28px, 4vw, 44px); margin: 6px 0 4px; }
-      .sub { color: #5b6b75; font-size: 14px; }
-      .wrap { max-width: 980px; margin: 0 auto; }
-      .now { background: var(--card); backdrop-filter: blur(8px); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: center; }
-      .temp { font-size: clamp(64px, 10vw, 104px); font-weight: 200; line-height: 1; }
-      .temp small { font-size: 0.35em; color: #5b6b75; margin-left: 6px; }
-      .cond { font-size: 18px; color: var(--sea); margin-top: 6px; }
-      .icon { font-size: 72px; text-align: right; }
-      .stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 14px; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 18px; }
-      .stat { text-align: center; }
-      .stat .lbl { font-size: 11px; letter-spacing: 0.12em; color: #5b6b75; text-transform: uppercase; }
-      .stat .val { font-size: 18px; margin-top: 4px; }
-      h2 { font-weight: 400; font-size: 14px; letter-spacing: 0.2em; color: var(--sea); text-transform: uppercase; margin: 36px 0 12px; }
-      .forecast { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
-      .day { background: var(--card); border-radius: 14px; padding: 14px 8px; text-align: center; box-shadow: var(--shadow); }
-      .day .d { font-size: 12px; letter-spacing: 0.1em; color: #5b6b75; text-transform: uppercase; }
-      .day .e { font-size: 32px; margin: 6px 0; }
-      .day .h { font-size: 16px; }
-      .day .l { font-size: 13px; color: #5b6b75; }
-      .beach { margin-top: 24px; background: linear-gradient(135deg, var(--sea) 0%, var(--sea-light) 100%); color: white; border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
-      .beach h3 { margin: 0 0 10px; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; font-size: 13px; opacity: 0.9; }
-      .beach-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
-      .beach .stat .lbl { color: rgba(255,255,255,0.75); }
-      .beach .stat .val { color: #fff; }
-      footer { text-align: center; color: #5b6b75; font-size: 12px; margin-top: 40px; }
-      @media (max-width: 640px) {
-            .now { grid-template-columns: 1fr; text-align: center; }
-            .icon { text-align: center; }
-            .forecast { grid-template-columns: repeat(4, 1fr); }
-      }
-    </style>
-  </head>
-  <body>
-      <div class="wrap">
-            <header>
-                    <div class="brand">Hotel LBI</div>div>
-                    <h1>Long Beach Island Forecast</h1>
-                  <div class="sub" id="updated">Loading conditions…</div>div>
-            </header>
-          <section class="now" id="now" aria-live="polite">
-                <div>
-                          <div class="temp" id="temp">—<small>°F</small></div>
-                        <div class="cond" id="cond">—</div>
-                </div>
-                <div class="icon" id="icon">⛅</div>
-                <div class="stats">
-                        <div class="stat"><div class="lbl">Feels Like</div><div class="val" id="feels">—</div></div>
-                        <div class="stat"><div class="lbl">Humidity</div><div class="val" id="hum">—</div></div>
-                        <div class="stat"><div class="lbl">Wind</div><div class="val" id="wind">—</div></div>
-                        <div class="stat"><div class="lbl">UV Index</div><div class="val" id="uv">—</div></div>
-                        <div class="stat"><div class="lbl">Sunrise</div><div class="val" id="sunrise">—</div></div>
-                        <div class="stat"><div class="lbl">Sunset</div><div class="val" id="sunset">—</div></div>
-                </div>
-          </section>section>
-          <h2>7-Day Forecast</h2>
-          <div class="forecast" id="forecast"></div>
-          <div class="beach">
-                <h3>At the Beach Today</h3>
-                <div class="beach-grid">
-                        <div class="stat"><div class="lbl">Precip Chance</div><div class="val" id="precip">—</div></div>
-                        <div class="stat"><div class="lbl">Wind Direction</div><div class="val" id="windDir">—</div></div>
-                        <div class="stat"><div class="lbl">Beach Day Score</div><div class="val" id="score">—</div></div>
-                </div>
-          </div>
-          <footer>Data: Open-Meteo · Long Beach Island, NJ</footer>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hotel LBI · Long Beach Island Forecast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#156988;
+    --teal-2:#2C95B3;
+    --teal-dark:#0f4d65;
+    --ink:#404040;
+    --ink-soft:#6a6a6a;
+    --line:#e6e6e6;
+    --bg:#ffffff;
+    --serif:"Prata", Didot, "ITC Bodoni", Georgia, "Times New Roman", serif;
+    --sans:"Montserrat", Avenir, "Avenir Next", Lato, "Source Sans Pro", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-weight:300;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .page{max-width:980px;margin:0 auto;padding:56px 28px 80px}
+  header.brand{text-align:center;border-bottom:1px solid var(--line);padding-bottom:36px;margin-bottom:44px}
+  .eyebrow{
+    font-family:var(--sans);
+    font-size:12px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--teal);
+    font-weight:500;
+    margin-bottom:14px;
+  }
+  h1{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:46px;
+    line-height:1.15;
+    margin:0 0 10px;
+    color:var(--ink);
+    letter-spacing:.4px;
+  }
+  .sub{
+    font-size:13px;
+    color:var(--ink-soft);
+    letter-spacing:.06em;
+  }
+  .now{
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    gap:24px;
+    padding:36px 32px;
+    border:1px solid var(--line);
+    border-top:3px solid var(--teal);
+    background:#fff;
+    margin-bottom:36px;
+  }
+  .temp{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:96px;
+    line-height:1;
+    color:var(--ink);
+    display:flex;
+    align-items:flex-start;
+  }
+  .temp .deg{font-size:32px;color:var(--teal);margin-top:14px;margin-left:6px}
+  .cond{
+    font-family:var(--sans);
+    font-size:14px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--teal);
+    margin-top:10px;
+    font-weight:500;
+  }
+  .icon{width:96px;height:96px;display:block}
+  .icon path,.icon circle,.icon line{stroke:var(--teal);stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .icon .fill{fill:var(--teal);stroke:none;opacity:.12}
+  .icon .sun{fill:var(--teal);opacity:.85;stroke:none}
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:0;
+    border:1px solid var(--line);
+    background:#fff;
+  }
+  .stat{padding:22px 18px;text-align:center;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:none}
+  .stat .label{
+    font-family:var(--sans);
+    font-size:10px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:8px;
+    font-weight:500;
+  }
+  .stat .value{
+    font-family:var(--serif);
+    font-size:24px;
+    color:var(--ink);
+    font-weight:400;
+  }
+  .forecast{
+    margin-top:48px;
+  }
+  .section-title{
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--teal);
+    text-align:center;
+    font-weight:500;
+    margin:0 0 22px;
+  }
+  .days{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    border:1px solid var(--line);
+    background:#fff;
+  }
+  .day{
+    padding:22px 10px;
+    text-align:center;
+    border-right:1px solid var(--line);
+  }
+  .day:last-child{border-right:none}
+  .day .name{
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    font-weight:500;
+    margin-bottom:10px;
+  }
+  .day .icon{width:46px;height:46px;margin:0 auto 10px}
+  .day .hi{font-family:var(--serif);font-size:22px;color:var(--ink)}
+  .day .lo{font-family:var(--sans);font-size:12px;color:var(--ink-soft);letter-spacing:.08em;margin-top:2px}
+  footer.foot{
+    text-align:center;
+    margin-top:54px;
+    padding-top:28px;
+    border-top:1px solid var(--line);
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  footer.foot a{color:var(--teal);text-decoration:none}
+  @media (max-width: 720px){
+    .page{padding:32px 18px 48px}
+    h1{font-size:32px}
+    .temp{font-size:72px}
+    .icon{width:72px;height:72px}
+    .now{grid-template-columns:1fr;text-align:left}
+    .stats{grid-template-columns:repeat(3,1fr)}
+    .stat{border-bottom:1px solid var(--line)}
+    .stat:nth-child(3n){border-right:none}
+    .stat:nth-last-child(-n+3){border-bottom:none}
+    .days{grid-template-columns:repeat(7,1fr);overflow-x:auto}
+    .day{padding:14px 6px}
+    .day .hi{font-size:18px}
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <header class="brand">
+      <div class="eyebrow">Hotel LBI</div>
+      <h1>Long Beach Island Forecast</h1>
+      <div class="sub" id="updated">Loading conditions…</div>
+    </header>
+
+    <section class="now" aria-label="Current conditions">
+      <div>
+        <div class="temp"><span id="temp">--</span><span class="deg">°F</span></div>
+        <div class="cond" id="cond">—</div>
       </div>
-  <script>
-      const LAT = 39.6453, LON = -74.1879;
-      const WMO = {
-            0:["Clear sky","☀️"], 1:["Mainly clear","🌤️"], 2:["Partly cloudy","⛅"], 3:["Overcast","☁️"],
-            45:["Fog","🌫️"], 48:["Rime fog","🌫️"],
-            51:["Light drizzle","🌦️"], 53:["Drizzle","🌦️"], 55:["Heavy drizzle","🌧️"],
-            61:["Light rain","🌦️"], 63:["Rain","🌧️"], 65:["Heavy rain","🌧️"],
-            71:["Light snow","🌨️"], 73:["Snow","🌨️"], 75:["Heavy snow","❄️"],
-            80:["Showers","🌦️"], 81:["Showers","🌧️"], 82:["Violent showers","⛈️"],
-            95:["Thunderstorm","⛈️"], 96:["Thunderstorm w/ hail","⛈️"], 99:["Severe thunderstorm","⛈️"]
-      };
-      const dirName = d => ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"][Math.round(d/22.5)%16];
-      const fmtTime = iso => new Date(iso).toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
-      const fmtDay = iso => new Date(iso).toLocaleDateString([], {weekday:"short"});
-      function beachScore({temp, wind, uv, precip, code}) {
-            let s = 100;
-            if (temp < 70) s -= (70 - temp) * 3;
-            if (temp > 90) s -= (temp - 90) * 3;
-            if (wind > 15) s -= (wind - 15) * 2;
-            if (precip > 20) s -= precip * 0.6;
-            if ([61,63,65,80,81,82,95,96,99].includes(code)) s -= 40;
-            if (uv > 8) s -= 10;
-            s = Math.max(0, Math.min(100, Math.round(s)));
-            const label = s >= 80 ? "Excellent" : s >= 60 ? "Good" : s >= 40 ? "Fair" : "Stay In";
-            return s + " · " + label;
+      <div id="iconWrap"></div>
+    </section>
+
+    <section class="stats" aria-label="Conditions detail">
+      <div class="stat"><div class="label">Feels Like</div><div class="value" id="feels">--°</div></div>
+      <div class="stat"><div class="label">Humidity</div><div class="value" id="humidity">--%</div></div>
+      <div class="stat"><div class="label">Wind</div><div class="value" id="wind">-- mph</div></div>
+      <div class="stat"><div class="label">UV Index</div><div class="value" id="uv">--</div></div>
+      <div class="stat"><div class="label">Sunrise</div><div class="value" id="sunrise">--</div></div>
+      <div class="stat"><div class="label">Sunset</div><div class="value" id="sunset">--</div></div>
+    </section>
+
+    <section class="forecast" aria-label="Seven day forecast">
+      <h2 class="section-title">Seven Day Outlook</h2>
+      <div class="days" id="days"></div>
+    </section>
+
+    <footer class="foot">
+      Ship Bottom · Long Beach Island, NJ &nbsp;·&nbsp;
+      <a href="https://hotellbi.com">hotellbi.com</a>
+    </footer>
+  </main>
+
+<script>
+  const LAT = 39.6418, LON = -74.1857, TZ = "America/New_York";
+
+  // Inline SVG icons keyed by Open-Meteo weather codes
+  function iconSVG(code, size){
+    size = size || 96;
+    const s = 'width="'+size+'" height="'+size+'" viewBox="0 0 64 64"';
+    const sun = '<circle class="sun" cx="32" cy="32" r="11"/>'+
+      '<g><line x1="32" y1="6" x2="32" y2="14"/><line x1="32" y1="50" x2="32" y2="58"/>'+
+      '<line x1="6" y1="32" x2="14" y2="32"/><line x1="50" y1="32" x2="58" y2="32"/>'+
+      '<line x1="13" y1="13" x2="19" y2="19"/><line x1="45" y1="45" x2="51" y2="51"/>'+
+      '<line x1="13" y1="51" x2="19" y2="45"/><line x1="45" y1="19" x2="51" y2="13"/></g>';
+    const cloud = '<path class="fill" d="M20 42 q-10 0 -10 -9 q0 -9 10 -9 q2 -10 13 -10 q12 0 13 12 q9 1 9 9 q0 7 -9 7 z"/>'+
+      '<path d="M20 42 q-10 0 -10 -9 q0 -9 10 -9 q2 -10 13 -10 q12 0 13 12 q9 1 9 9 q0 7 -9 7 z"/>';
+    const rain = '<g><line x1="22" y1="48" x2="19" y2="56"/><line x1="32" y1="48" x2="29" y2="56"/><line x1="42" y1="48" x2="39" y2="56"/></g>';
+    const snow = '<g><line x1="20" y1="50" x2="20" y2="56"/><line x1="17" y1="53" x2="23" y2="53"/>'+
+      '<line x1="32" y1="50" x2="32" y2="56"/><line x1="29" y1="53" x2="35" y2="53"/>'+
+      '<line x1="44" y1="50" x2="44" y2="56"/><line x1="41" y1="53" x2="47" y2="53"/></g>';
+    const bolt = '<path d="M30 44 L26 54 L34 50 L30 60" />';
+    const fog = '<g><line x1="10" y1="36" x2="54" y2="36"/><line x1="14" y1="44" x2="50" y2="44"/><line x1="18" y1="52" x2="46" y2="52"/></g>';
+    const partly = '<circle class="sun" cx="22" cy="22" r="9"/>'+
+      '<line x1="22" y1="6" x2="22" y2="11"/><line x1="6" y1="22" x2="11" y2="22"/>'+
+      '<line x1="11" y1="11" x2="14" y2="14"/><line x1="33" y1="11" x2="30" y2="14"/>'+
+      '<path class="fill" d="M26 46 q-9 0 -9 -8 q0 -8 9 -8 q2 -8 11 -8 q10 0 11 10 q8 1 8 8 q0 6 -8 6 z"/>'+
+      '<path d="M26 46 q-9 0 -9 -8 q0 -8 9 -8 q2 -8 11 -8 q10 0 11 10 q8 1 8 8 q0 6 -8 6 z"/>';
+    let body;
+    if (code === 0) body = sun;
+    else if (code === 1 || code === 2) body = partly;
+    else if (code === 3) body = cloud;
+    else if (code === 45 || code === 48) body = cloud + fog;
+    else if ([51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code)) body = cloud + rain;
+    else if ([71,73,75,77,85,86].includes(code)) body = cloud + snow;
+    else if ([95,96,99].includes(code)) body = cloud + bolt;
+    else body = cloud;
+    return '<svg class="icon" '+s+' aria-hidden="true">'+body+'</svg>';
+  }
+
+  function condText(code){
+    const map = {0:"Clear sky",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",48:"Rime fog",
+      51:"Light drizzle",53:"Drizzle",55:"Heavy drizzle",56:"Freezing drizzle",57:"Freezing drizzle",
+      61:"Light rain",63:"Rain",65:"Heavy rain",66:"Freezing rain",67:"Freezing rain",
+      71:"Light snow",73:"Snow",75:"Heavy snow",77:"Snow grains",
+      80:"Rain showers",81:"Rain showers",82:"Heavy showers",
+      85:"Snow showers",86:"Snow showers",95:"Thunderstorm",96:"Thunderstorm w/ hail",99:"Thunderstorm w/ hail"};
+    return map[code] || "—";
+  }
+
+  function fmtTime(s){
+    // s is naive local-time like "2026-05-07T05:50"
+    if (!s) return "--";
+    const m = s.match(/T(\d{2}):(\d{2})/);
+    if (!m) return "--";
+    let h = parseInt(m[1],10);
+    const min = m[2];
+    const ampm = h >= 12 ? "PM" : "AM";
+    h = h % 12; if (h === 0) h = 12;
+    return h + ":" + min + " " + ampm;
+  }
+  function fmtUpdated(){
+    const now = new Date();
+    const opts = {hour:"numeric",minute:"2-digit",timeZone:TZ};
+    return new Intl.DateTimeFormat("en-US",opts).format(now);
+  }
+  function dayName(s){
+    const d = new Date(s+"T12:00:00");
+    return new Intl.DateTimeFormat("en-US",{weekday:"short",timeZone:TZ}).format(d);
+  }
+
+  async function load(){
+    const url = "https://api.open-meteo.com/v1/forecast"+
+      "?latitude="+LAT+"&longitude="+LON+
+      "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m"+
+      "&hourly=uv_index"+
+      "&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset"+
+      "&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone="+encodeURIComponent(TZ);
+    try{
+      const r = await fetch(url);
+      const j = await r.json();
+      const c = j.current;
+      document.getElementById("temp").textContent = Math.round(c.temperature_2m);
+      document.getElementById("cond").textContent = condText(c.weather_code);
+      document.getElementById("iconWrap").innerHTML = iconSVG(c.weather_code, 96);
+      document.getElementById("feels").textContent = Math.round(c.apparent_temperature)+"°";
+      document.getElementById("humidity").textContent = Math.round(c.relative_humidity_2m)+"%";
+      document.getElementById("wind").textContent = Math.round(c.wind_speed_10m)+" mph";
+      // UV: get current hour from hourly array
+      let uv = "--";
+      if (j.hourly && j.hourly.uv_index){
+        const nowH = new Date().toISOString().slice(0,13);
+        const idx = j.hourly.time.findIndex(t => t.startsWith(nowH));
+        if (idx >= 0) uv = (Math.round(j.hourly.uv_index[idx]*10)/10).toFixed(1);
       }
-      async function load() {
-            const url = "https://api.open-meteo.com/v1/forecast?latitude=" + LAT + "&longitude=" + LON +
-                    "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,uv_index,precipitation_probability" +
-                    "&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max" +
-                    "&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FNew_York";
-            const res = await fetch(url);
-            const data = await res.json();
-            const c = data.current;
-            const wm = WMO[c.weather_code] || ["—","⛅"];
-            document.getElementById("temp").innerHTML = Math.round(c.temperature_2m) + "<small>°F</small>";
-            document.getElementById("cond").textContent = wm[0];
-            document.getElementById("icon").textContent = wm[1];
-            document.getElementById("feels").textContent = Math.round(c.apparent_temperature) + "°";
-            document.getElementById("hum").textContent = c.relative_humidity_2m + "%";
-            document.getElementById("wind").textContent = Math.round(c.wind_speed_10m) + " mph";
-            document.getElementById("uv").textContent = (c.uv_index != null) ? c.uv_index.toFixed(1) : "—";
-            document.getElementById("sunrise").textContent = fmtTime(data.daily.sunrise[0]);
-            document.getElementById("sunset").textContent = fmtTime(data.daily.sunset[0]);
-            document.getElementById("updated").textContent = "Updated " + new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit"}) + " · Ship Bottom, NJ";
-            document.getElementById("precip").textContent = data.daily.precipitation_probability_max[0] + "%";
-            document.getElementById("windDir").textContent = dirName(c.wind_direction_10m) + " (" + Math.round(c.wind_direction_10m) + "°)";
-            document.getElementById("score").textContent = beachScore({
-                    temp: c.temperature_2m, wind: c.wind_speed_10m, uv: c.uv_index || 0,
-                    precip: data.daily.precipitation_probability_max[0], code: c.weather_code
-            });
-            const fc = document.getElementById("forecast");
-            fc.innerHTML = "";
-            for (let i = 0; i < 7; i++) {
-                    const w = WMO[data.daily.weather_code[i]] || ["—","⛅"];
-                    const el = document.createElement("div");
-                    el.className = "day";
-                    el.innerHTML = '<div class="d">' + (i === 0 ? "Today" : fmtDay(data.daily.time[i])) +
-                              '</div><div class="e" title="' + w[0] + '">' + w[1] + '</div>' +
-                              '<div class="h">' + Math.round(data.daily.temperature_2m_max[i]) + '°</div>' +
-                              '<div class="l">' + Math.round(data.daily.temperature_2m_min[i]) + '°</div>';
-                    fc.appendChild(el);
-            }
-      }
-      load().catch(err => {
-            document.getElementById("updated").textContent = "Couldn't load weather. Try again shortly.";
-            console.error(err);
-      });
-  </script>
-  </body>
+      document.getElementById("uv").textContent = uv;
+      document.getElementById("sunrise").textContent = fmtTime(j.daily.sunrise[0]);
+      document.getElementById("sunset").textContent = fmtTime(j.daily.sunset[0]);
+      document.getElementById("updated").textContent = "Updated "+fmtUpdated()+" · Ship Bottom, NJ";
+      // 7 day
+      const days = j.daily.time.map((t,i) => {
+        return '<div class="day"><div class="name">'+dayName(t)+'</div>'+
+          iconSVG(j.daily.weather_code[i], 46)+
+          '<div class="hi">'+Math.round(j.daily.temperature_2m_max[i])+'°</div>'+
+          '<div class="lo">'+Math.round(j.daily.temperature_2m_min[i])+'°</div></div>';
+      }).join("");
+      document.getElementById("days").innerHTML = days;
+    }catch(e){
+      document.getElementById("updated").textContent = "Unable to load conditions.";
+    }
+  }
+  load();
+  setInterval(load, 5*60*1000);
+</script>
+</body>
 </html>
