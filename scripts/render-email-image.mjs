@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Renders email/widget.svg and email/widget.png from live Open-Meteo data.
-// Brand: Hotel LBI — white background, Prata serif headings, Montserrat sans-serif labels,
+// Brand: Hotel LBI - white background, Prata serif headings, Montserrat sans-serif labels,
 // deep teal #156988 accents, custom inline SVG weather icons.
 
 import fs from "node:fs/promises";
@@ -43,41 +43,41 @@ function condText(code){
 }
 const TEAL = "#156988";
 const TEAL_2 = "#2C95B3";
-const INK = "#404040";
-const INK_SOFT = "#6a6a6a";
-const LINE = "#e6e6e6";
+const INK = "#1f1f1f";        // darker for stat values
+const INK_LABEL = "#404040";   // darker labels (was #6a6a6a, too faint)
+const INK_SUB = "#404040";     // subtitle line darker
+const LINE = "#d8d8d8";
 
 // Custom inline SVG weather icons keyed by Open-Meteo weather codes.
-// Each function returns SVG content (no <svg> wrapper) sized for a 64x64 viewBox.
 function iconBody(code){
-  const sun = '<circle cx="32" cy="32" r="11" fill="'+TEAL+'" opacity="0.85"/>'+
-    '<g stroke="'+TEAL+'" stroke-width="2" stroke-linecap="round">'+
+  const sun = '<circle cx="32" cy="32" r="11" fill="'+TEAL+'" opacity="0.95"/>'+
+    '<g stroke="'+TEAL+'" stroke-width="2.4" stroke-linecap="round">'+
     '<line x1="32" y1="6" x2="32" y2="14"/><line x1="32" y1="50" x2="32" y2="58"/>'+
     '<line x1="6" y1="32" x2="14" y2="32"/><line x1="50" y1="32" x2="58" y2="32"/>'+
     '<line x1="13" y1="13" x2="19" y2="19"/><line x1="45" y1="45" x2="51" y2="51"/>'+
     '<line x1="13" y1="51" x2="19" y2="45"/><line x1="45" y1="19" x2="51" y2="13"/></g>';
   const cloudPath = 'M20 42 Q10 42 10 33 Q10 24 20 24 Q22 14 33 14 Q45 14 46 26 Q55 27 55 35 Q55 42 46 42 Z';
-  const cloud = '<path d="'+cloudPath+'" fill="'+TEAL+'" opacity="0.12"/>'+
-    '<path d="'+cloudPath+'" fill="none" stroke="'+TEAL+'" stroke-width="2" stroke-linejoin="round"/>';
-  const rain = '<g stroke="'+TEAL_2+'" stroke-width="2" stroke-linecap="round">'+
+  const cloud = '<path d="'+cloudPath+'" fill="'+TEAL+'" opacity="0.18"/>'+
+    '<path d="'+cloudPath+'" fill="none" stroke="'+TEAL+'" stroke-width="2.4" stroke-linejoin="round"/>';
+  const rain = '<g stroke="'+TEAL_2+'" stroke-width="2.4" stroke-linecap="round">'+
     '<line x1="22" y1="48" x2="19" y2="56"/>'+
     '<line x1="32" y1="48" x2="29" y2="56"/>'+
     '<line x1="42" y1="48" x2="39" y2="56"/></g>';
-  const snow = '<g stroke="'+TEAL+'" stroke-width="2" stroke-linecap="round">'+
+  const snow = '<g stroke="'+TEAL+'" stroke-width="2.4" stroke-linecap="round">'+
     '<line x1="20" y1="50" x2="20" y2="56"/><line x1="17" y1="53" x2="23" y2="53"/>'+
     '<line x1="32" y1="50" x2="32" y2="56"/><line x1="29" y1="53" x2="35" y2="53"/>'+
     '<line x1="44" y1="50" x2="44" y2="56"/><line x1="41" y1="53" x2="47" y2="53"/></g>';
-  const bolt = '<path d="M32 44 L26 54 L34 50 L28 60" stroke="'+TEAL+'" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
-  const fog = '<g stroke="'+TEAL+'" stroke-width="2" stroke-linecap="round" opacity="0.7">'+
+  const bolt = '<path d="M32 44 L26 54 L34 50 L28 60" stroke="'+TEAL+'" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+  const fog = '<g stroke="'+TEAL+'" stroke-width="2.4" stroke-linecap="round" opacity="0.8">'+
     '<line x1="10" y1="36" x2="54" y2="36"/>'+
     '<line x1="14" y1="44" x2="50" y2="44"/>'+
     '<line x1="18" y1="52" x2="46" y2="52"/></g>';
-  const partly = '<circle cx="22" cy="22" r="9" fill="'+TEAL+'" opacity="0.85"/>'+
-    '<g stroke="'+TEAL+'" stroke-width="2" stroke-linecap="round">'+
+  const partly = '<circle cx="22" cy="22" r="9" fill="'+TEAL+'" opacity="0.95"/>'+
+    '<g stroke="'+TEAL+'" stroke-width="2.4" stroke-linecap="round">'+
     '<line x1="22" y1="6" x2="22" y2="11"/><line x1="6" y1="22" x2="11" y2="22"/>'+
     '<line x1="11" y1="11" x2="14" y2="14"/><line x1="33" y1="11" x2="30" y2="14"/></g>'+
-    '<path d="M26 46 Q17 46 17 38 Q17 30 26 30 Q28 22 37 22 Q47 22 48 32 Q56 33 56 40 Q56 46 48 46 Z" fill="'+TEAL+'" opacity="0.12"/>'+
-    '<path d="M26 46 Q17 46 17 38 Q17 30 26 30 Q28 22 37 22 Q47 22 48 32 Q56 33 56 40 Q56 46 48 46 Z" fill="none" stroke="'+TEAL+'" stroke-width="2" stroke-linejoin="round"/>';
+    '<path d="M26 46 Q17 46 17 38 Q17 30 26 30 Q28 22 37 22 Q47 22 48 32 Q56 33 56 40 Q56 46 48 46 Z" fill="'+TEAL+'" opacity="0.18"/>'+
+    '<path d="M26 46 Q17 46 17 38 Q17 30 26 30 Q28 22 37 22 Q47 22 48 32 Q56 33 56 40 Q56 46 48 46 Z" fill="none" stroke="'+TEAL+'" stroke-width="2.4" stroke-linejoin="round"/>';
   if (code === 0) return sun;
   if (code === 1 || code === 2) return partly;
   if (code === 3) return cloud;
@@ -123,18 +123,18 @@ function buildSVG(j){
   const sunset = fmtTime(j.daily.sunset[0]);
   const updated = fmtUpdated();
 
-  // Font stacks: Prata for serif, Montserrat for sans, with system fallbacks that resvg can render.
   const SERIF = "'Prata', 'DejaVu Serif', Georgia, serif";
   const SANS = "'Montserrat', 'DejaVu Sans', Helvetica, Arial, sans-serif";
+  const SANS_BOLD = "'Montserrat Bold', 'Montserrat', 'DejaVu Sans', Helvetica, Arial, sans-serif";
 
   // 7-day strip
   const days = j.daily.time.slice(0,7).map((t,i) => {
     const x = 60 + i * ((W - 120) / 7);
     const cx = x + ((W - 120) / 7) / 2;
     return ''+
-      '<text x="'+cx+'" y="538" text-anchor="middle" font-family="'+SANS+'" font-size="14" font-weight="500" fill="'+INK_SOFT+'" letter-spacing="2.4">'+dayName(t)+'</text>'+
+      '<text x="'+cx+'" y="538" text-anchor="middle" font-family="'+SANS_BOLD+'" font-size="16" font-weight="700" fill="'+INK_LABEL+'" letter-spacing="3">'+dayName(t)+'</text>'+
       iconAt(j.daily.weather_code[i], cx-22, 548, 44)+
-      '<text x="'+cx+'" y="612" text-anchor="middle" font-family="'+SERIF+'" font-size="22" fill="'+INK+'">'+Math.round(j.daily.temperature_2m_max[i])+'°</text>';
+      '<text x="'+cx+'" y="612" text-anchor="middle" font-family="'+SERIF+'" font-size="24" fill="'+INK+'">'+Math.round(j.daily.temperature_2m_max[i])+'°</text>';
   }).join("");
 
   // Stat boxes
@@ -152,36 +152,36 @@ function buildSVG(j){
   const statsSVG = stats.map((s,i) => {
     const cx = statsX0 + colW * i + colW/2;
     return ''+
-      '<text x="'+cx+'" y="380" text-anchor="middle" font-family="'+SANS+'" font-size="13" font-weight="500" fill="'+INK_SOFT+'" letter-spacing="3">'+s[0]+'</text>'+
-      '<text x="'+cx+'" y="420" text-anchor="middle" font-family="'+SERIF+'" font-size="28" fill="'+INK+'">'+s[1]+'</text>';
+      '<text x="'+cx+'" y="380" text-anchor="middle" font-family="'+SANS_BOLD+'" font-size="15" font-weight="700" fill="'+INK_LABEL+'" letter-spacing="3.5">'+s[0]+'</text>'+
+      '<text x="'+cx+'" y="424" text-anchor="middle" font-family="'+SERIF+'" font-size="32" fill="'+INK+'">'+s[1]+'</text>';
   }).join("");
 
   return ''+
 '<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+
   '<rect width="'+W+'" height="'+H+'" fill="#ffffff"/>'+
-  // Eyebrow
-  '<text x="'+W/2+'" y="64" text-anchor="middle" font-family="'+SANS+'" font-size="16" font-weight="500" fill="'+TEAL+'" letter-spacing="6">HOTEL LBI</text>'+
+  // Eyebrow - bolder, brighter teal
+  '<text x="'+W/2+'" y="64" text-anchor="middle" font-family="'+SANS_BOLD+'" font-size="18" font-weight="700" fill="'+TEAL+'" letter-spacing="7">HOTEL LBI</text>'+
   // Title
-  '<text x="'+W/2+'" y="120" text-anchor="middle" font-family="'+SERIF+'" font-size="52" fill="'+INK+'">Long Beach Island Forecast</text>'+
-  // Sub
-  '<text x="'+W/2+'" y="150" text-anchor="middle" font-family="'+SANS+'" font-size="15" fill="'+INK_SOFT+'" letter-spacing="1.2">Updated '+updated+' \u00b7 Ship Bottom, NJ</text>'+
+  '<text x="'+W/2+'" y="124" text-anchor="middle" font-family="'+SERIF+'" font-size="56" fill="'+INK+'">Long Beach Island Forecast</text>'+
+  // Sub - darker for legibility
+  '<text x="'+W/2+'" y="156" text-anchor="middle" font-family="'+SANS+'" font-size="17" font-weight="500" fill="'+INK_SUB+'" letter-spacing="1.2">Updated '+updated+' \u00b7 Ship Bottom, NJ</text>'+
   // Divider
-  '<line x1="60" y1="180" x2="'+(W-60)+'" y2="180" stroke="'+LINE+'" stroke-width="1"/>'+
+  '<line x1="60" y1="184" x2="'+(W-60)+'" y2="184" stroke="'+LINE+'" stroke-width="1"/>'+
   // Top accent line for current card
-  '<line x1="60" y1="210" x2="'+(W-60)+'" y2="210" stroke="'+TEAL+'" stroke-width="3"/>'+
+  '<line x1="60" y1="214" x2="'+(W-60)+'" y2="214" stroke="'+TEAL+'" stroke-width="3"/>'+
   // Big temp
-  '<text x="120" y="320" font-family="'+SERIF+'" font-size="140" fill="'+INK+'">'+temp+'</text>'+
-  '<text x="320" y="240" font-family="'+SERIF+'" font-size="44" fill="'+TEAL+'">\u00b0F</text>'+
-  // Condition
-  '<text x="120" y="358" font-family="'+SANS+'" font-size="18" font-weight="500" fill="'+TEAL+'" letter-spacing="4">'+cond+'</text>'+
+  '<text x="120" y="324" font-family="'+SERIF+'" font-size="140" fill="'+INK+'">'+temp+'</text>'+
+  '<text x="320" y="244" font-family="'+SERIF+'" font-size="44" fill="'+TEAL+'">\u00b0F</text>'+
+  // Condition - bolder
+  '<text x="120" y="362" font-family="'+SANS_BOLD+'" font-size="20" font-weight="700" fill="'+TEAL+'" letter-spacing="4.5">'+cond+'</text>'+
   // Big icon on right of current
-  iconAt(c.weather_code, W - 240, 220, 130) +
+  iconAt(c.weather_code, W - 240, 224, 130) +
   // Divider above stats
-  '<line x1="60" y1="350" x2="'+(W-60)+'" y2="350" stroke="'+LINE+'" stroke-width="1"/>'+
+  '<line x1="60" y1="354" x2="'+(W-60)+'" y2="354" stroke="'+LINE+'" stroke-width="1"/>'+
   // Stats
   statsSVG +
-  // Section title for 7-day
-  '<text x="'+W/2+'" y="500" text-anchor="middle" font-family="'+SANS+'" font-size="13" font-weight="500" fill="'+TEAL+'" letter-spacing="4">SEVEN DAY OUTLOOK</text>'+
+  // Section title for 7-day - bolder
+  '<text x="'+W/2+'" y="500" text-anchor="middle" font-family="'+SANS_BOLD+'" font-size="15" font-weight="700" fill="'+TEAL+'" letter-spacing="5">SEVEN DAY OUTLOOK</text>'+
   // 7 day
   days +
 '</svg>';
@@ -199,7 +199,6 @@ async function main(){
     fitTo: { mode: "width", value: W },
     background: "#ffffff",
     font: {
-      // Prefer downloaded brand fonts in fonts/, fall back to system DejaVu/Liberation.
       fontDirs: ["fonts", "/usr/share/fonts", "/usr/share/fonts/truetype/dejavu", "/usr/share/fonts/truetype/liberation"],
       defaultFontFamily: "DejaVu Sans",
       loadSystemFonts: true,
