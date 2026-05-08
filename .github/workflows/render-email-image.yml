@@ -33,13 +33,15 @@ jobs:
       - name: Install
         run: npm install --no-audit --no-fund
 
-      - name: Download brand fonts (Prata + Montserrat)
+      - name: Download brand fonts
         run: |
           mkdir -p fonts
           # Prata - serif headings
           curl -fsSL "https://github.com/google/fonts/raw/main/ofl/prata/Prata-Regular.ttf" -o fonts/Prata-Regular.ttf
-          # Montserrat - variable weight font (URL-encoded brackets)
-          curl -fsSL "https://github.com/google/fonts/raw/main/ofl/montserrat/Montserrat%5Bwght%5D.ttf" -o fonts/Montserrat.ttf
+          # Montserrat - static Regular and Bold from upstream JulietaUla repo
+          curl -fsSL "https://github.com/JulietaUla/Montserrat/raw/master/fonts/ttf/Montserrat-Regular.ttf" -o fonts/Montserrat-Regular.ttf
+          curl -fsSL "https://github.com/JulietaUla/Montserrat/raw/master/fonts/ttf/Montserrat-Bold.ttf" -o fonts/Montserrat-Bold.ttf
+          curl -fsSL "https://github.com/JulietaUla/Montserrat/raw/master/fonts/ttf/Montserrat-SemiBold.ttf" -o fonts/Montserrat-SemiBold.ttf
           ls -la fonts/
 
       - name: Render
