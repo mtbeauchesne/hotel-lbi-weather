@@ -172,12 +172,12 @@ function buildSVG(j){
   // Top accent line for current card
   '<line x1="60" y1="200" x2="'+(W-60)+'" y2="200" stroke="'+TEAL+'" stroke-width="3"/>'+
   // Big temp
-  '<text x="120" y="324" font-family="'+SERIF+'" font-size="140" fill="'+INK+'">'+temp+'</text>'+
-  '<text x="320" y="244" font-family="'+SERIF+'" font-size="44" fill="'+TEAL+'">\u00b0F</text>'+
+  '<text x="120" y="340" font-family="'+SERIF+'" font-size="140" fill="'+INK+'">'+temp+'</text>'+
+  '<text x="320" y="260" font-family="'+SERIF+'" font-size="44" fill="'+TEAL+'">\u00b0F</text>'+
   // Condition - bolder
   '<text x="120" y="362" font-family="'+SANS_BOLD+'" font-size="20" font-weight="700" fill="'+TEAL+'" letter-spacing="4.5">'+cond+'</text>'+
   // Big icon on right of current
-  iconAt(c.weather_code, W - 240, 224, 130) +
+  iconAt(c.weather_code, W - 240, 240, 130) +
   // Divider above stats
   '<line x1="60" y1="388" x2="'+(W-60)+'" y2="388" stroke="'+LINE+'" stroke-width="1"/>'+
   // Stats
