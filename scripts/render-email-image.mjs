@@ -154,8 +154,8 @@ function buildSVG(j){
   const statsSVG = stats.map((s,i) => {
     const cx = statsX0 + colW * i + colW/2;
     return ''+
-      '<text x="'+cx+'" y="380" text-anchor="middle" font-family="'+SANS_BOLD+'" font-size="15" font-weight="700" fill="'+INK_LABEL+'" letter-spacing="3.5">'+s[0]+'</text>'+
-      '<text x="'+cx+'" y="424" text-anchor="middle" font-family="'+SERIF+'" font-size="32" fill="'+INK+'">'+s[1]+'</text>';
+      '<text x="'+cx+'" y="412" text-anchor="middle" font-family="'+SANS_BOLD+'" font-size="15" font-weight="700" fill="'+INK_LABEL+'" letter-spacing="3.5">'+s[0]+'</text>'+
+      '<text x="'+cx+'" y="452" text-anchor="middle" font-family="'+SERIF+'" font-size="32" fill="'+INK+'">'+s[1]+'</text>';
   }).join("");
 
   return ''+
@@ -179,7 +179,7 @@ function buildSVG(j){
   // Big icon on right of current
   iconAt(c.weather_code, W - 240, 224, 130) +
   // Divider above stats
-  '<line x1="60" y1="380" x2="'+(W-60)+'" y2="380" stroke="'+LINE+'" stroke-width="1"/>'+
+  '<line x1="60" y1="388" x2="'+(W-60)+'" y2="388" stroke="'+LINE+'" stroke-width="1"/>'+
   // Stats
   statsSVG +
   // Section title for 7-day - bolder
