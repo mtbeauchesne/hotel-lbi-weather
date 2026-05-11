@@ -273,8 +273,9 @@
   }
   function fmtUpdated(){
     const now = new Date();
-    const opts = {hour:"numeric",minute:"2-digit",timeZone:TZ};
-    return new Intl.DateTimeFormat("en-US",opts).format(now);
+    const datePart = new Intl.DateTimeFormat("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric",timeZone:TZ}).format(now);
+    const timePart = new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit",timeZone:TZ}).format(now);
+    return datePart + " \u00b7 " + timePart;
   }
   function dayName(s){
     const d = new Date(s+"T12:00:00");
