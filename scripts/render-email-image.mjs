@@ -26,7 +26,9 @@ function fmtTime(s){
 }
 function fmtUpdated(){
   const now = new Date();
-  return new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit",timeZone:TZ}).format(now);
+  const datePart = new Intl.DateTimeFormat("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric",timeZone:TZ}).format(now);
+  const timePart = new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit",timeZone:TZ}).format(now);
+  return datePart + " \u00b7 " + timePart;
 }
 function dayName(s){
   const d = new Date(s+"T12:00:00");
@@ -168,7 +170,7 @@ function buildSVG(j){
   // Divider
   '<line x1="60" y1="184" x2="'+(W-60)+'" y2="184" stroke="'+LINE+'" stroke-width="1"/>'+
   // Top accent line for current card
-  '<line x1="60" y1="214" x2="'+(W-60)+'" y2="214" stroke="'+TEAL+'" stroke-width="3"/>'+
+  '<line x1="60" y1="200" x2="'+(W-60)+'" y2="200" stroke="'+TEAL+'" stroke-width="3"/>'+
   // Big temp
   '<text x="120" y="324" font-family="'+SERIF+'" font-size="140" fill="'+INK+'">'+temp+'</text>'+
   '<text x="320" y="244" font-family="'+SERIF+'" font-size="44" fill="'+TEAL+'">\u00b0F</text>'+
@@ -177,7 +179,7 @@ function buildSVG(j){
   // Big icon on right of current
   iconAt(c.weather_code, W - 240, 224, 130) +
   // Divider above stats
-  '<line x1="60" y1="354" x2="'+(W-60)+'" y2="354" stroke="'+LINE+'" stroke-width="1"/>'+
+  '<line x1="60" y1="380" x2="'+(W-60)+'" y2="380" stroke="'+LINE+'" stroke-width="1"/>'+
   // Stats
   statsSVG +
   // Section title for 7-day - bolder
